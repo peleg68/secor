@@ -144,6 +144,7 @@ public class SecorKafkaMessageIterator implements KafkaMessageIterator, Rebalanc
     @Override
     public void subscribe(RebalanceHandler handler, SecorConfig config) {
         ConsumerRebalanceListener reBalanceListener = new SecorConsumerRebalanceListener(mKafkaConsumer, mZookeeperConnector, getSkipZookeeperOffsetSeek(config), config.getNewConsumerAutoOffsetReset(), handler);
+        ;
 
         String[] subscribeList = config.getKafkaTopicList();
         if (subscribeList.length == 0 || Strings.isNullOrEmpty(subscribeList[0])) {
@@ -153,20 +154,12 @@ public class SecorKafkaMessageIterator implements KafkaMessageIterator, Rebalanc
         }
     }
 
+
     private boolean getSkipZookeeperOffsetSeek(SecorConfig config) {
+
         String dualCommitEnabled = config.getDualCommitEnabled();
         String offsetStorage = config.getOffsetsStorage();
-        return offsetStorage.equals("kafka") && dualCommitEnabled.equals("false");
-    }
+        return offsetStorage.equals("kafka") && dualCommitEnabled.equals("true");
 
-    @Override
-    public long getKafkaCommitedOffsetCount(final com.pinterest.secor.common.TopicPartition topicPartition) {
-        TopicPartition kafkaTopicPartition = new TopicPartition(topicPartition.getTopic(), topicPartition.getPartition());
-        OffsetAndMetadata offsetAndMetadata = mKafkaConsumer.committed(kafkaTopicPartition);
-        if (offsetAndMetadata != null) {
-            return offsetAndMetadata.offset();
-        } else {
-            return -1;
-        }
     }
 }

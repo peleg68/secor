@@ -28,7 +28,7 @@ import com.pinterest.secor.common.SecorConfig;
 public interface MetricCollector {
     /**
      * Initialize the collector with SecorConfig
-     * @param config configuration
+     * @param config
      */
     void initialize(SecorConfig config);
 
