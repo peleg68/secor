@@ -81,7 +81,6 @@ public class UploaderTest extends TestCase {
     private TopicPartition mTopicPartition;
 
     private LogFilePath mLogFilePath;
-    private LogFilePath mLogFilePathWithExtension;
 
     private SecorConfig mConfig;
     private OffsetTracker mOffsetTracker;
@@ -100,9 +99,6 @@ public class UploaderTest extends TestCase {
         mLogFilePath = new LogFilePath("/some_parent_dir",
                 "/some_parent_dir/some_topic/some_partition/some_other_partition/"
                         + "10_0_00000000000000000010");
-        mLogFilePathWithExtension = new LogFilePath("/some_parent_dir",
-                "/some_parent_dir/some_topic/some_partition/some_other_partition/"
-                        + "10_0_00000000000000000010.snappy.parquet");
 
         mConfig = Mockito.mock(SecorConfig.class);
         Mockito.when(mConfig.getLocalPath()).thenReturn("/some_parent_dir");
@@ -286,7 +282,7 @@ public class UploaderTest extends TestCase {
                 .thenReturn(21L);
 
         HashSet<LogFilePath> logFilePaths = new HashSet<LogFilePath>();
-        logFilePaths.add(mLogFilePathWithExtension);
+        logFilePaths.add(mLogFilePath);
         Mockito.when(mFileRegistry.getPaths(mTopicPartition)).thenReturn(
                 logFilePaths);
 
@@ -312,7 +308,7 @@ public class UploaderTest extends TestCase {
         LogFilePath dstLogFilePath = new LogFilePath(
                 "/some_parent_dir/some_message_dir",
                 "/some_parent_dir/some_message_dir/some_topic/some_partition/"
-                        + "some_other_partition/10_0_00000000000000000021.snappy.parquet");
+                        + "some_other_partition/10_0_00000000000000000021");
         Mockito.when(mFileRegistry.getOrCreateWriter(dstLogFilePath, null))
                 .thenReturn(writer);
 
