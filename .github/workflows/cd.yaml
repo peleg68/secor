@@ -27,6 +27,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: 
-            - peleg68/secor:latest
-            - peleg68/secor:0.29
+          tags: peleg68/secor:latest,peleg68/secor:0.29
